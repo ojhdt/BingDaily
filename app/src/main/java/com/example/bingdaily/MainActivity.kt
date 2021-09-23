@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bingdaily.databinding.ActivityMainBinding
+import com.example.bingdaily.ui.image.ImageAdapter
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    lateinit var adapter:ImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             refresh()
         }
+
+        adapter = ImageAdapter()
+        binding.rv.layoutManager = LinearLayoutManager(this)
+        binding.rv.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -50,5 +57,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun refresh() {}
+    fun refresh() {
+        adapter.notifyDataSetChanged()
+    }
 }
