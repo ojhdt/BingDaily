@@ -2,21 +2,28 @@ package com.example.bingdaily
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bingdaily.databinding.ActivityMainBinding
+import com.example.bingdaily.logic.modal.ImageData
 import com.example.bingdaily.ui.image.ImageAdapter
+import com.example.bingdaily.ui.image.ImageViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    lateinit var adapter:ImageAdapter
+    var imglist: List<ImageData>? = null
+    lateinit var adapter: ImageAdapter
+    lateinit var viewModel: ImageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        viewModel = ViewModelProvider(this)[ImageViewModel::class.java]
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar.let {
@@ -33,9 +40,12 @@ class MainActivity : AppCompatActivity() {
             refresh()
         }
 
-        adapter = ImageAdapter()
+        imglist = viewModel.imageLiveData.value
+        adapter = ImageAdapter(imglist)
         binding.rv.layoutManager = LinearLayoutManager(this)
         binding.rv.adapter = adapter
+
+        viewModel.imageLiveData.observe(this) { value -> }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,6 +68,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun refresh() {
+        imglist = viewModel.imageLiveData.value
         adapter.notifyDataSetChanged()
+        Snackbar.make(binding.root,"已刷新",Snackbar.LENGTH_SHORT)
     }
 }

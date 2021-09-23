@@ -11,21 +11,23 @@ import com.example.bingdaily.BingDailyApplication
 import com.example.bingdaily.databinding.ImageCardBinding
 import com.example.bingdaily.logic.modal.ImageData
 
-class ImageAdapter(val list:List<ImageData>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter(val list: List<ImageData>?) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val holder = ViewHolder(ImageCardBinding.inflate(LayoutInflater.from(parent.context)))
         return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = list[position]
-        Glide.with(BingDailyApplication.context).load(item.url).into(holder.img)
-        holder.title.text = item.title
-        holder.copyright.text = item.copyright
+        list?.let {
+            val item = it[position]
+            Glide.with(BingDailyApplication.context).load(item.url).into(holder.img)
+            holder.title.text = item.title
+            holder.copyright.text = item.copyright
+        }
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return (list?.size)?:0
     }
 
     inner class ViewHolder(binding: ImageCardBinding) : RecyclerView.ViewHolder(binding.root) {
