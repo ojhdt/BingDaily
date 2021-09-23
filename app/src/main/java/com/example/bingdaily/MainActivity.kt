@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     fun refresh() {
         imglist = viewModel.imageLiveData.value
+        Snackbar.make(binding.root,"已刷新",Snackbar.LENGTH_SHORT).show()
         adapter.notifyDataSetChanged()
-        Snackbar.make(binding.root,"已刷新",Snackbar.LENGTH_SHORT)
     }
 }
