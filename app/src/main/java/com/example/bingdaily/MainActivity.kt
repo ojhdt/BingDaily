@@ -20,10 +20,14 @@ class MainActivity : AppCompatActivity() {
             it?.setDisplayHomeAsUpEnabled(true)
             it?.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24)
         }
-        binding.nav.setCheckedItem(R.id.home)
+        binding.nav.setCheckedItem(R.id.main)
         binding.nav.setNavigationItemSelectedListener {
             binding.drawer.closeDrawer(GravityCompat.START)
             true
+        }
+
+        binding.fab.setOnClickListener {
+            refresh()
         }
     }
 
@@ -34,12 +38,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home->{binding.drawer.openDrawer(GravityCompat.START)}
-            R.id.refresh -> {// TODO: 2021/9/23
+            android.R.id.home -> {
+                binding.drawer.openDrawer(GravityCompat.START)
+            }
+            R.id.refresh -> {
+                refresh()
             }
             R.id.about -> {// TODO: 2021/9/23
             }
         }
         return true
     }
+
+    fun refresh() {}
 }
