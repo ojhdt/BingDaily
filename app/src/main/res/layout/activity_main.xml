@@ -18,18 +18,14 @@
                 android:layout_height="?attr/actionBarSize" />
         </FrameLayout>
 
-        <LinearLayout
+        <com.google.android.material.navigation.NavigationView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:id="@+id/nav"
             android:layout_gravity="start"
-            android:background="@color/white">
+            app:menu="@menu/nav"
+            app:headerLayout="@layout/nav_header"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text" />
-        </LinearLayout>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

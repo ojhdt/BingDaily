@@ -20,6 +20,11 @@ class MainActivity : AppCompatActivity() {
             it?.setDisplayHomeAsUpEnabled(true)
             it?.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24)
         }
+        binding.nav.setCheckedItem(R.id.home)
+        binding.nav.setNavigationItemSelectedListener {
+            binding.drawer.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
