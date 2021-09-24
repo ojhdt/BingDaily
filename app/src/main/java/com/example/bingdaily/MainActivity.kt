@@ -2,6 +2,7 @@ package com.example.bingdaily
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -17,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    var imglist: List<ImageData>? = null
+    val imglist = ArrayList<ImageData>()
     lateinit var adapter: ImageAdapter
     lateinit var viewModel: ImageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,12 +41,17 @@ class MainActivity : AppCompatActivity() {
             refresh()
         }
 
-        imglist = viewModel.imageLiveData.value
         adapter = ImageAdapter(imglist)
         binding.rv.layoutManager = LinearLayoutManager(this)
         binding.rv.adapter = adapter
 
-        viewModel.imageLiveData.observe(this) { value -> }
+        viewModel.imageLiveData.observe(this) { value ->
+            value.forEach {
+                imglist?.add(it)
+            }
+            Snackbar.make(binding.fab, "已刷新", Snackbar.LENGTH_SHORT).show()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,8 +74,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun refresh() {
-        imglist = viewModel.imageLiveData.value
-        Snackbar.make(binding.root,"已刷新",Snackbar.LENGTH_SHORT).show()
-        adapter.notifyDataSetChanged()
+        viewModel.refresh()
     }
 }

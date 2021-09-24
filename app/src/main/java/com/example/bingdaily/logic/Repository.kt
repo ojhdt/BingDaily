@@ -10,7 +10,7 @@ import java.lang.Exception
 
 object Repository {
     fun getImage() = liveData(Dispatchers.IO) {
-        val response = BingNetwork.getImage() as ImageResponse
+        val response = BingNetwork.getImage()
         emit(response.images)
     }
 }

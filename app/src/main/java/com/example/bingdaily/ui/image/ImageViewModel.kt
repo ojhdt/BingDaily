@@ -1,5 +1,6 @@
 package com.example.bingdaily.ui.image
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.bingdaily.logic.Repository
 import com.example.bingdaily.logic.modal.Image
@@ -15,6 +16,7 @@ class ImageViewModel : ViewModel() {
 
     val imageLiveData: LiveData<List<ImageData>> =
         Transformations.map(imageResponseLiveData) { images ->
+            Log.d("image", "fun call")
             val list = ArrayList<ImageData>()
             images.forEach {
                 list.add(

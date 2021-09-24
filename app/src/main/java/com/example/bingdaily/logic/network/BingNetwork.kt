@@ -1,5 +1,7 @@
 package com.example.bingdaily.logic.network
 
+import android.util.Log
+import com.example.bingdaily.logic.modal.ImageResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,12 +13,12 @@ import kotlin.coroutines.suspendCoroutine
 object BingNetwork {
     //动态代理对象
     private val bingService = ServiceCreator.create<ImageService>()
-    suspend fun getImage() {
-        bingService.search().await()
+    suspend fun getImage() : ImageResponse {
+        return bingService.search().await()
     }
 
-    private suspend fun <T> Call<T>.await() {
-        suspendCoroutine<T> { continuation ->
+    private suspend fun <T> Call<T>.await(): T {
+        return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
                 override fun onResponse(call: Call<T>, response: Response<T>) {
                     val body = response.body()
